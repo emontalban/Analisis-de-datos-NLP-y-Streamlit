@@ -64,9 +64,9 @@ La aplicación debe permitir:
 
 1. Introducir una opinión o comentario de texto.
 2. Analizarlo mediante el modelo entrenado.
-3. Mostrar el sentimiento estimado: **positivo**, **negativo** o **neutro**, *si el dataset permite entrenar esas categorías*.
+3. Mostrar el sentimiento estimado: **positivo**, **negativo**
 
-> **Importante:** La categoría «neutro» solo debe ofrecerse si los datos y el modelo permiten clasificarla. No debe presentarse como un resultado fiable sin haberla entrenado y evaluado.
+
 
 ### Reto extra (opcional)
 

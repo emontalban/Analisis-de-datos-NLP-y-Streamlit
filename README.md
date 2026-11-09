@@ -2,7 +2,7 @@
 Proyecto educativo de análisis de datos y procesamiento del lenguaje natural aplicado a reseñas.
 
 
-hola Gaby acabo de cambiar los datos
+
 
 
 
