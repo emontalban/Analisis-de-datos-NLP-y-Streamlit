@@ -30,7 +30,7 @@ Al terminar el proyecto, el equipo deberá ser capaz de:
 - [x] Utilizar **Pandas** y **NumPy** para trabajar con información.
 - [x] Realizar un análisis exploratorio de datos (**EDA**).
 - [x] Crear visualizaciones para comunicar los descubrimientos.
-- [x] Entrenar y evaluar un modelo sencillo de **Machine Learning**, cuando el problema lo requiera.
+- [ ] Entrenar y evaluar un modelo sencillo de **Machine Learning**, cuando el problema lo requiera.
 - [ ] Desarrollar una aplicación funcional utilizando **Streamlit** y herramientas de **Vibe Coding**.
 - [x] Utilizar la IA como apoyo al desarrollo, revisando y comprendiendo el código generado.
 - [x] Identificar las limitaciones, los posibles sesgos y las implicaciones éticas de la solución.
@@ -54,9 +54,9 @@ Crear una aplicación que analice opiniones escritas por usuarios y **clasifique
 - [x] Analizar los textos y sus categorías.
 - [x] Preparar y limpiar los datos.
 - [x] Utilizar **CountVectorizer** para transformar el texto en datos numéricos.
-- [x] Entrenar un clasificador con **Scikit-learn**.
-- [x] Evaluar los resultados y analizar los errores.
-- [x] Crear una aplicación donde el usuario pueda introducir un comentario y obtener su sentimiento estimado.
+- [ ] Entrenar un clasificador con **Scikit-learn**.
+- [ ] Evaluar los resultados y analizar los errores.
+- [ ] Crear una aplicación donde el usuario pueda introducir un comentario y obtener su sentimiento estimado.
 
 ### Funcionalidad mínima obligatoria
 
@@ -73,19 +73,6 @@ La aplicación debe permitir:
 - [ ] Analizar un conjunto de opiniones.
 - [ ] Mostrar qué temas generan más comentarios positivos o negativos.
 
-## 4. Comprobación antes de la entrega
-
-Esta lista resume los requisitos anteriores y sirve para verificar que el trabajo está completo:
-
-- [x] Se ha definido y explicado el problema.
-- [x] Se ha seleccionado, explorado y limpiado un dataset adecuado.
-- [x] Se ha realizado un EDA con visualizaciones.
-- [x] Se han transformado los textos con CountVectorizer.
-- [x] Se ha entrenado y evaluado un clasificador con Scikit-learn.
-- [x] Se han revisado errores, limitaciones y posibles sesgos.
-- [x] La aplicación de Streamlit permite introducir una opinión y ver su clasificación.
-- [x] El equipo comprende y puede explicar el código, incluido el desarrollado con ayuda de IA.
-- [x] Se han organizado las tareas del equipo y preparado la presentación para la Demo Day.
 
 ---
 
