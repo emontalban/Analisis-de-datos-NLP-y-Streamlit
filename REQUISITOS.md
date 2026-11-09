@@ -25,10 +25,10 @@ Al finalizar, cada equipo presentará su proyecto al resto de la clase durante u
 
 Al terminar el proyecto, el equipo deberá ser capaz de:
 
-- [ x ] <span style="color: green;">✓</span> Aplicar Python para resolver un problema práctico.
-- [ ] Buscar, cargar, explorar y limpiar un conjunto de datos.
-- [ ] Utilizar **Pandas** y **NumPy** para trabajar con información.
-- [ ] Realizar un análisis exploratorio de datos (**EDA**).
+- <span style="color: green;">✓</span> Aplicar Python para resolver un problema práctico.
+- <span style="color: green;">✓</span> Buscar, cargar, explorar y limpiar un conjunto de datos.
+- <span style="color: green;">✓</span> Utilizar **Pandas** y **NumPy** para trabajar con información.
+- <span style="color: green;">✓</span> Realizar un análisis exploratorio de datos (**EDA**).
 - [ ] Crear visualizaciones para comunicar los descubrimientos.
 - [ ] Entrenar y evaluar un modelo sencillo de **Machine Learning**, cuando el problema lo requiera.
 - [ ] Desarrollar una aplicación funcional utilizando **Streamlit** y herramientas de **Vibe Coding**.
