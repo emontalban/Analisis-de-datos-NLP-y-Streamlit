@@ -25,7 +25,7 @@ Al finalizar, cada equipo presentará su proyecto al resto de la clase durante u
 
 Al terminar el proyecto, el equipo deberá ser capaz de:
 
-- [ ] Aplicar Python para resolver un problema práctico.
+- [ x ] <span style="color: green;">✓</span> Aplicar Python para resolver un problema práctico.
 - [ ] Buscar, cargar, explorar y limpiar un conjunto de datos.
 - [ ] Utilizar **Pandas** y **NumPy** para trabajar con información.
 - [ ] Realizar un análisis exploratorio de datos (**EDA**).
