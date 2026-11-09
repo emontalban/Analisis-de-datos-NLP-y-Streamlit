@@ -25,16 +25,16 @@ Al finalizar, cada equipo presentará su proyecto al resto de la clase durante u
 
 Al terminar el proyecto, el equipo deberá ser capaz de:
 
-- <span style="color: green;">✓</span> Aplicar Python para resolver un problema práctico.
-- <span style="color: green;">✓</span> Buscar, cargar, explorar y limpiar un conjunto de datos.
-- <span style="color: green;">✓</span> Utilizar **Pandas** y **NumPy** para trabajar con información.
-- <span style="color: green;">✓</span> Realizar un análisis exploratorio de datos (**EDA**).
-- [ x ] Crear visualizaciones para comunicar los descubrimientos.
-- [ ] Entrenar y evaluar un modelo sencillo de **Machine Learning**, cuando el problema lo requiera.
+- [x] Aplicar Python para resolver un problema práctico.
+- [x] Buscar, cargar, explorar y limpiar un conjunto de datos.
+- [x] Utilizar **Pandas** y **NumPy** para trabajar con información.
+- [x] Realizar un análisis exploratorio de datos (**EDA**).
+- [x] Crear visualizaciones para comunicar los descubrimientos.
+- [x] Entrenar y evaluar un modelo sencillo de **Machine Learning**, cuando el problema lo requiera.
 - [ ] Desarrollar una aplicación funcional utilizando **Streamlit** y herramientas de **Vibe Coding**.
-- [ ] Utilizar la IA como apoyo al desarrollo, revisando y comprendiendo el código generado.
-- [ ] Identificar las limitaciones, los posibles sesgos y las implicaciones éticas de la solución.
-- [ ] Trabajar en equipo, organizar tareas y comunicar resultados.
+- [x] Utilizar la IA como apoyo al desarrollo, revisando y comprendiendo el código generado.
+- [x] Identificar las limitaciones, los posibles sesgos y las implicaciones éticas de la solución.
+- [x] Trabajar en equipo, organizar tareas y comunicar resultados.
 
 ## 3. Proyecto elegido: MOOD-INSIGHTS
 
@@ -50,13 +50,13 @@ Crear una aplicación que analice opiniones escritas por usuarios y **clasifique
 
 ### Requisitos específicos
 
-- [ ] Buscar un dataset de opiniones o reseñas etiquetadas.
-- [ ] Analizar los textos y sus categorías.
-- [ ] Preparar y limpiar los datos.
-- [ ] Utilizar **CountVectorizer** para transformar el texto en datos numéricos.
-- [ ] Entrenar un clasificador con **Scikit-learn**.
-- [ ] Evaluar los resultados y analizar los errores.
-- [ ] Crear una aplicación donde el usuario pueda introducir un comentario y obtener su sentimiento estimado.
+- [x] Buscar un dataset de opiniones o reseñas etiquetadas.
+- [x] Analizar los textos y sus categorías.
+- [x] Preparar y limpiar los datos.
+- [x] Utilizar **CountVectorizer** para transformar el texto en datos numéricos.
+- [x] Entrenar un clasificador con **Scikit-learn**.
+- [x] Evaluar los resultados y analizar los errores.
+- [x] Crear una aplicación donde el usuario pueda introducir un comentario y obtener su sentimiento estimado.
 
 ### Funcionalidad mínima obligatoria
 
@@ -77,15 +77,15 @@ La aplicación debe permitir:
 
 Esta lista resume los requisitos anteriores y sirve para verificar que el trabajo está completo:
 
-- [ ] Se ha definido y explicado el problema.
-- [ ] Se ha seleccionado, explorado y limpiado un dataset adecuado.
-- [ ] Se ha realizado un EDA con visualizaciones.
-- [ ] Se han transformado los textos con CountVectorizer.
-- [ ] Se ha entrenado y evaluado un clasificador con Scikit-learn.
-- [ ] Se han revisado errores, limitaciones y posibles sesgos.
-- [ ] La aplicación de Streamlit permite introducir una opinión y ver su clasificación.
-- [ ] El equipo comprende y puede explicar el código, incluido el desarrollado con ayuda de IA.
-- [ ] Se han organizado las tareas del equipo y preparado la presentación para la Demo Day.
+- [x] Se ha definido y explicado el problema.
+- [x] Se ha seleccionado, explorado y limpiado un dataset adecuado.
+- [x] Se ha realizado un EDA con visualizaciones.
+- [x] Se han transformado los textos con CountVectorizer.
+- [x] Se ha entrenado y evaluado un clasificador con Scikit-learn.
+- [x] Se han revisado errores, limitaciones y posibles sesgos.
+- [x] La aplicación de Streamlit permite introducir una opinión y ver su clasificación.
+- [x] El equipo comprende y puede explicar el código, incluido el desarrollado con ayuda de IA.
+- [x] Se han organizado las tareas del equipo y preparado la presentación para la Demo Day.
 
 ---
 
