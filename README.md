@@ -151,8 +151,10 @@ source .venv/bin/activate
 
 Con `(.venv)` activo, ejecuta:
 
+instalamos las librerias
+
 ```powershell
-python -m pip install -r requirements.txt
+python -m pip install streamlit pandas scikit-learn joblib matplotlib
 ```
 
 **¿Qué hace?** Lee `requirements.txt` e instala las librerías indicadas. `python -m pip` ejecuta el instalador asociado al Python activo; suele ser más fiable que usar `pip` solo cuando hay varias instalaciones de Python.
