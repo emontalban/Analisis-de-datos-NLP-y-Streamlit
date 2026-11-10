@@ -1,4 +1,4 @@
-"""MOOD INSIGHTS — Día 3: interfaz Streamlit para clasificar reseñas IMDb.
+"""Butaca Emocioal — Día 3: interfaz Streamlit para clasificar reseñas IMDb.
 
 El entrenamiento se realizó previamente en el notebook de NLP.
 Esta aplicación SOLO carga el Pipeline guardado y lo utiliza para predecir.
@@ -23,8 +23,8 @@ EJEMPLOS = {
 }
 
 st.set_page_config(
-    page_title="Mood Insights | Analizador de reseñas",
-    page_icon="🎬",
+    page_title="Butaca Emocioal | Analizador de reseñas",
+    page_icon="💺",
     layout="centered",
 )
 
@@ -41,7 +41,7 @@ def cargar_modelo():
     return joblib.load(RUTA_MODELO)
 
 
-st.title("🎬 Mood Insights")
+st.title("💺 Butaca Emocioal")
 st.subheader("¿Qué sentimiento transmite una reseña de cine?")
 st.write(
     "Escribe una opinión sobre una película y nuestro modelo de Machine Learning "
