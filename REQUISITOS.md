@@ -7,7 +7,7 @@
 | **Duración** | 3 días de trabajo |
 | **Modalidad** | Trabajo en equipo |
 | **Resultado esperado** | Desarrollo de un proyecto práctico que integre Python, análisis de datos, Machine Learning y Vibe Coding |
-| **Proyecto elegido** | **Proyecto 6 — MOOD-INSIGHTS** |
+| **Proyecto elegido** | **Proyecto 6 — BUTACA-EMOCIONAL** |
 
 ## 1. El reto: construir una solución con IA
 
@@ -36,7 +36,7 @@ Al terminar el proyecto, el equipo deberá ser capaz de:
 - [x] Identificar las limitaciones, los posibles sesgos y las implicaciones éticas de la solución.
 - [x] Trabajar en equipo, organizar tareas y comunicar resultados.
 
-## 3. Proyecto elegido: MOOD-INSIGHTS
+## 3. Proyecto elegido: BUTACA-EMOCIONAL
 
 ### Proyecto 6 — Analizador de sentimientos y emociones en comentarios
 

@@ -1,4 +1,4 @@
-# 🎬 MOOD INSIGHTS — Analizador de sentimientos con Streamlit
+# 🎬 Butaca Emocional — Analizador de sentimientos con Streamlit
 
 **Proyecto final de análisis de datos, NLP, Machine Learning y Streamlit.**  
 **Idioma de las reseñas:** español.  
@@ -269,16 +269,16 @@ Cuando generes un modelo nuevo desde el notebook de NLP, **coloca el archivo res
 
 ## 17. Subir el proyecto a GitHub
 
-1. Crea un repositorio nuevo en GitHub, por ejemplo `mood-insights-streamlit`.
+1. Crea un repositorio nuevo en GitHub.
 2. Abre el terminal de VS Code desde la carpeta del proyecto.
-3. Ejecuta `git init`, `git add .` y `git commit -m "Proyecto Mood Insights completo"`.
+3. Ejecuta `git init`, `git add .` y `git commit -m "Proyecto completo"`.
 4. En GitHub, copia los comandos para enlazar tu repositorio y enviar la rama. Si la rama principal se llama `main`, normalmente serán `git branch -M main`, `git remote add origin URL_DEL_REPOSITORIO` y `git push -u origin main`.
 
 No subas `.venv`: ya está excluida por `.gitignore`. El modelo `.joblib` **sí forma parte del proyecto**, pues es necesario para predecir, pero nunca cargues modelos desconocidos por razones de seguridad.
 
 ## 18. Conclusión del proyecto
 
-Con Mood Insights hemos conectado todo el proceso: primero **estudiamos los datos**, después **enseñamos al clasificador con ejemplos**, finalmente **lo integramos en una aplicación real** que cualquier persona puede probar.
+Con Butaca Emocional hemos conectado todo el proceso: primero **estudiamos los datos**, después **enseñamos al clasificador con ejemplos**, finalmente **lo integramos en una aplicación real** que cualquier persona puede probar.
 
 **Limitaciones:** clasificación binaria, dominio de reseñas de cine, posibles errores ante ironías o textos ambiguos, y puntuaciones que no deben interpretarse como certezas ni como medida del estado emocional humano. Una mejora futura sería evaluar textos de otros ámbitos con datos apropiados y, si se necesita la categoría neutra, reunir ejemplos etiquetados de esa clase y volver a entrenar/evaluar.
 
