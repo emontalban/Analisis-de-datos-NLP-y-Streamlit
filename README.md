@@ -282,6 +282,17 @@ Con Butaca Emocional hemos conectado todo el proceso: primero **estudiamos los d
 
 **Limitaciones:** clasificación binaria, dominio de reseñas de cine, posibles errores ante ironías o textos ambiguos, y puntuaciones que no deben interpretarse como certezas ni como medida del estado emocional humano. Una mejora futura sería evaluar textos de otros ámbitos con datos apropiados y, si se necesita la categoría neutra, reunir ejemplos etiquetados de esa clase y volver a entrenar/evaluar.
 
+## 19. 🧠 Evolución del NLP: Butaca Emocional V1 vs. Butaca Emocional V2
+Butaca Emocional V1 se centra en aprender los fundamentos del procesamiento del lenguaje natural: transformar palabras en números, entrenar un clasificador y comprobar sus resultados.
+
+Butaca Emocional V2 amplía ese aprendizaje mediante el uso de unigramas y bigramas, el filtrado del vocabulario y el análisis de los coeficientes asociados a cada sentimiento.
+
+La principal evolución entre ambos modelos se encuentra en cómo representan el texto y cómo podemos interpretar las características que influyen en sus predicciones.
+
+Ambas versiones siguen utilizando un enfoque clásico de NLP basado en Bag of Words y regresión logística. No utilizan modelos de lenguaje profundo ni análisis semántico avanzado.
+
+La V2 ofrece una representación lingüística más amplia, aunque eso no demuestra por sí solo que tenga mayor exactitud: para confirmar una mejora de rendimiento es necesario comparar ambos modelos sobre el mismo conjunto de prueba.
+
 ---
 
 **Proyecto educativo · Dataset de reseñas IMDb en español, publicado en Kaggle por `luisdiegofv97`.**
