@@ -1,4 +1,4 @@
-"""Butaca Emocioal — Día 3: interfaz Streamlit para clasificar reseñas IMDb.
+"""Butaca Emocional — Día 3: interfaz Streamlit para clasificar reseñas IMDb.
 
 El entrenamiento se realizó previamente en el notebook de NLP.
 Esta aplicación SOLO carga el Pipeline guardado y lo utiliza para predecir.
@@ -17,13 +17,13 @@ RUTA_MODELO = CARPETA_PROYECTO / "modelos" / "mood_insights_modelo.joblib"
 
 # Este texto sirve para que cualquier persona entienda qué puede escribir.
 EJEMPLOS = {
-    "😊 Ejemplo positivo": "Me encantó la película. La historia es preciosa y las actuaciones son excelentes.",
-    "😞 Ejemplo negativo": "La película es aburrida, demasiado larga y el final me decepcionó.",
+    "😊 Reseña positiva": "Me encantó la película. La historia es preciosa y las actuaciones son excelentes.",
+    "😞 Reseña negativa": "La película es aburrida, demasiado larga y el final me decepcionó.",
     "🤔 Opinión mixta": "La fotografía es muy buena, pero la historia me pareció aburrida.",
 }
 
 st.set_page_config(
-    page_title="Butaca Emocioal | Analizador de reseñas",
+    page_title="Butaca Emocional | Analizador de reseñas",
     page_icon="💺",
     layout="centered",
 )
@@ -41,7 +41,7 @@ def cargar_modelo():
     return joblib.load(RUTA_MODELO)
 
 
-st.title("💺 Butaca Emocioal")
+st.title("💺 Butaca Emocional")
 st.subheader("¿Qué sentimiento transmite una reseña de cine?")
 st.write(
     "Escribe una opinión sobre una película y nuestro modelo de Machine Learning "
