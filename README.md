@@ -2,7 +2,7 @@
 
 **Proyecto final de análisis de datos, NLP, Machine Learning y Streamlit.**  
 **Idioma de las reseñas:** español.  
-**Resultado posible:** `positivo` o `negativo` (NO `neutro`).
+**Resultado posible:** `positivo` o `negativo`.
 
 ## 1. ¿Qué hemos construido?
 
