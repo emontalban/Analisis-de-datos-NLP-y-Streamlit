@@ -1,0 +1,131 @@
+{
+  "version_modelo": "2",
+  "python": "3.13.18",
+  "scikit_learn": "1.6.1",
+  "n_entrenamiento": 39679,
+  "n_prueba": 9920,
+  "tamano_vocabulario": 40000,
+  "exactitud": 0.8764112903225807,
+  "etiquetas": [
+    "negativo",
+    "positivo"
+  ],
+  "matriz_confusion": [
+    [
+      4294,
+      649
+    ],
+    [
+      577,
+      4400
+    ]
+  ],
+  "precision_por_clase": {
+    "negativo": 0.8815438308355574,
+    "positivo": 0.8714596949891068
+  },
+  "recall_por_clase": {
+    "negativo": 0.8687032166700385,
+    "positivo": 0.884066706851517
+  },
+  "terminos_positivos": [
+    {
+      "termino": "refrescante",
+      "peso": 1.3725
+    },
+    {
+      "termino": "perfecto",
+      "peso": 1.273
+    },
+    {
+      "termino": "puedo esperar",
+      "peso": 1.2704
+    },
+    {
+      "termino": "excelente",
+      "peso": 1.2585
+    },
+    {
+      "termino": "los mejores",
+      "peso": 1.2547
+    },
+    {
+      "termino": "bien hecho",
+      "peso": 1.2175
+    },
+    {
+      "termino": "perfecta",
+      "peso": 1.2172
+    },
+    {
+      "termino": "un poco",
+      "peso": 1.1733
+    },
+    {
+      "termino": "maravilloso",
+      "peso": 1.1427
+    },
+    {
+      "termino": "hilarante",
+      "peso": 1.1371
+    },
+    {
+      "termino": "disfruté",
+      "peso": 1.1284
+    },
+    {
+      "termino": "sutil",
+      "peso": 1.1234
+    }
+  ],
+  "terminos_negativos": [
+    {
+      "termino": "decepción",
+      "peso": -1.9333
+    },
+    {
+      "termino": "no vale",
+      "peso": -1.8277
+    },
+    {
+      "termino": "horrible",
+      "peso": -1.7974
+    },
+    {
+      "termino": "aburrida",
+      "peso": -1.7865
+    },
+    {
+      "termino": "decepcionante",
+      "peso": -1.6975
+    },
+    {
+      "termino": "olvidable",
+      "peso": -1.6614
+    },
+    {
+      "termino": "terrible",
+      "peso": -1.6222
+    },
+    {
+      "termino": "peor",
+      "peso": -1.57
+    },
+    {
+      "termino": "peores",
+      "peso": -1.53
+    },
+    {
+      "termino": "mst3k",
+      "peso": -1.4734
+    },
+    {
+      "termino": "aburrido",
+      "peso": -1.4358
+    },
+    {
+      "termino": "mala",
+      "peso": -1.3868
+    }
+  ]
+}
