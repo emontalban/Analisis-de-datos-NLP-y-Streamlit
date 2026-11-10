@@ -54,9 +54,9 @@ Crear una aplicación que analice opiniones escritas por usuarios y **clasifique
 - [x] Analizar los textos y sus categorías.
 - [x] Preparar y limpiar los datos.
 - [x] Utilizar **CountVectorizer** para transformar el texto en datos numéricos.
-- [ ] Entrenar un clasificador con **Scikit-learn**.
-- [ ] Evaluar los resultados y analizar los errores.
-- [ ] Crear una aplicación donde el usuario pueda introducir un comentario y obtener su sentimiento estimado.
+- [x] Entrenar un clasificador con **Scikit-learn**.
+- [x] Evaluar los resultados y analizar los errores.
+- [x] Crear una aplicación donde el usuario pueda introducir un comentario y obtener su sentimiento estimado.
 
 ### Funcionalidad mínima obligatoria
 
