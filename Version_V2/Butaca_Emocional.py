@@ -44,7 +44,7 @@ st.markdown("""
 [data-testid="stMarkdownContainer"] p {color:#302333; font-size:1.15rem; line-height:1.6;}
 .stApp h1,.stApp h2,.stApp h3 {
   font-family:Georgia,serif !important;
-  color:#65263e !important;
+  color:TITUL0 !important;
   letter-spacing:.01em;
 }
 .stApp h2 {font-size:2.05rem !important;}
@@ -56,14 +56,14 @@ st.markdown("""
   box-shadow:0 3px 14px rgba(65,37,43,.06);
 }
 [data-testid="stMetricLabel"] p {color:#51394a !important;font-size:1.05rem !important;}
-[data-testid="stMetricValue"] {color:#65263e !important;font-size:2rem !important;}
+[data-testid="stMetricValue"] {color:TITUL0 !important;font-size:2rem !important;}
 /* Pestañas y botones. */
 [data-testid="stTabs"] button {font-size:1.15rem !important;color:#523747 !important;}
 [data-testid="stTabs"] button[aria-selected="true"] {
-  color:#65263e !important;border-bottom-color:#65263e !important;font-weight:750;
+  color:TITUL0 !important;border-bottom-color:TITUL0 !important;font-weight:750;
 }
 .stButton button[kind="primary"] {
-  background:#65263e !important;color:#fff !important;border:0;
+  background:TITUL0 !important;color:#fff !important;border:0;
   font-size:1.18rem;font-weight:750;padding:.7rem 1.4rem;
 }
 .stButton button[kind="primary"]:hover {background:#4c1a2e !important;color:#fff !important;}
@@ -78,9 +78,9 @@ st.markdown("""
   border-radius:12px !important;
   border:1px solid #caa6b5 !important;
   background:#f7ecf0 !important;
-  color:#65263e !important;
+  color:TITUL0 !important;
 }
-[data-testid="stAlert"] svg {color:#65263e !important;fill:none;}
+[data-testid="stAlert"] svg {color:TITUL0 !important;fill:none;}
 /* Streamlit puede colorear por separado el contenedor interior de los avisos. */
 [data-testid="stAlert"] > div {background:transparent !important;}
 /* Garantiza texto blanco incluso en los elementos interiores del botón primario. */
@@ -96,7 +96,7 @@ st.markdown("""
 }
 [data-testid="stAlert"] p,
 [data-testid="stAlert"] div[data-testid="stMarkdownContainer"] p {
-  color:#65263e !important; font-size:1.16rem !important; font-weight:650;
+  color:TITUL0 !important; font-size:1.16rem !important; font-weight:650;
 }
 /* Notas bajo los gráficos y pie de página: contraste alto. */
 [data-testid="stCaptionContainer"] p,
@@ -113,7 +113,7 @@ st.markdown("""
   box-shadow:0 10px 26px rgba(87,38,61,.09);
 }
 .eyebrow {color:#804b28;letter-spacing:3px;font-size:1rem;font-weight:800;}
-.gala-hero h1 {font-size:clamp(2.4rem,5vw,4rem) !important;margin:12px 0;color:#65263e !important;}
+.gala-hero h1 {font-size:clamp(2.4rem,5vw,4rem) !important;margin:12px 0;color:TITUL0 !important;}
 .hero-sub {color:#493543;font-size:1.25rem;line-height:1.5;}
 /* Separadores y textos de widgets. */
 [data-testid="stWidgetLabel"] p {font-size:1.16rem !important;font-weight:650;}
@@ -148,13 +148,7 @@ except (ValueError, OSError, KeyError) as error:
     st.error(f"No se pueden leer las métricas: {error}")
     st.stop()
 
-version_entrenamiento = str(metricas.get("scikit_learn", "desconocida"))
-if version_entrenamiento != sklearn.__version__:
-    st.warning(
-        f"El modelo se entrenó con Scikit-learn {version_entrenamiento} y aquí se utiliza "
-        f"{sklearn.__version__}. La compatibilidad no está garantizada: si hay fallos "
-        "o predicciones inconsistentes, vuelve a entrenar y exportar el modelo en tu entorno actual."
-    )
+
 try:
     modelo = leer_modelo()
 except Exception as error:
@@ -276,11 +270,11 @@ with pestana_evaluacion:
         fig = estilo_figura(fig, 385)
         # Recuadro visible y separación entre casillas para diferenciarlo del fondo beige.
         fig.update_layout(
-            plot_bgcolor="#65263e",
+            plot_bgcolor="TITUL0",
             paper_bgcolor="#fffdf9",
             shapes=[dict(type="rect", xref="paper", yref="paper",
                          x0=0, y0=0, x1=1, y1=1,
-                         line=dict(color="#65263e", width=2), fillcolor="rgba(0,0,0,0)")],
+                         line=dict(color="TITUL0", width=2), fillcolor="rgba(0,0,0,0)")],
         )
         st.plotly_chart(fig, use_container_width=True)
         st.caption("Las casillas verdes de la diagonal representan los aciertos. Las rosas muestran los errores. Los números indican cuántas reseñas hay en cada caso.")

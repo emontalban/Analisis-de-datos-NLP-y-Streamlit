@@ -1,298 +1,398 @@
-# 🎬 Butaca Emocional — Analizador de sentimientos con Streamlit
+# 🎬 Butaca Emocional — Análisis de sentimientos con Python y Streamlit
 
-**Proyecto final de análisis de datos, NLP, Machine Learning y Streamlit.**  
-**Idioma de las reseñas:** español.  
-**Resultado posible:** `positivo` o `negativo`.
+**Proyecto final de análisis de datos, procesamiento del lenguaje natural (NLP), Machine Learning y desarrollo de aplicaciones con Streamlit.**
+
+- **Idioma:** español.
+- **Clasificación:** sentimiento `positivo` o `negativo`.
+- **Entorno de trabajo principal:** Visual Studio Code, con notebooks Jupyter (`.ipynb`).
+- **Datos:** reseñas de películas del dataset IMDb en español publicado en Kaggle.
 
 ## 1. ¿Qué hemos construido?
 
-Una aplicación que recibe una reseña de una película y devuelve una clasificación estimada: **positiva** o **negativa**. El objetivo es aprender las fases de un proyecto de datos completo:
+**Butaca Emocional** es una aplicación que recibe una reseña de una película y estima si expresa un sentimiento **positivo** o **negativo**.
 
-**Problema → Datos → Análisis exploratorio (EDA) → NLP → Modelo de Machine Learning → Aplicación → Resultados**.
+El repositorio documenta todo el proceso de construcción, no solo la aplicación final, y contiene una segunda versión independiente dentro de `version_V2/`:
 
-No hemos programado una regla como «si aparece *bueno*, responde positivo». El modelo ha aprendido asociaciones entre palabras y etiquetas a partir de miles de reseñas. Esto **no implica que comprenda el lenguaje como una persona**: puede equivocarse.
+**Problema → Datos → Análisis exploratorio (EDA) → CSV limpio → NLP → Modelo de Machine Learning → Streamlit → Resultados.**
 
-## 2. ¿Qué hicimos cada día?
+El clasificador no aplica reglas escritas a mano, como «si aparece *bueno*, el sentimiento es positivo». Aprende asociaciones estadísticas entre las palabras de miles de reseñas y sus etiquetas. Eso no significa que comprenda el lenguaje como una persona: puede equivocarse.
 
-### Día 1 — Análisis exploratorio (EDA)
+## 2. Fases del proyecto
 
-Archivo: `notebooks/MOOD_INSIGHTS_EDA.ipynb`.
+### Día 1 — Exploración, limpieza y visualización (EDA)
 
-- **Cargar datos:** leer el dataset y conocer filas y columnas.
-- **Explorar:** revisar primeras reseñas, tipos de datos, valores ausentes y duplicados.
-- **Preparar el texto:** pasar a minúsculas y retirar algunas etiquetas HTML y signos para los gráficos; conservar una versión original.
-- **Visualizar:** distribución de reseñas positivas/negativas, longitud de las reseñas y palabras características de cada sentimiento.
-- **Interpretar:** los gráficos muestran cómo son los datos. Por sí solos NO predicen el sentimiento de una nueva reseña.
+**Notebook:** `notebook/MOOD_INSIGHTS_EDA.ipynb` 
 
-### Día 2 — Procesamiento del lenguaje natural (NLP) y aprendizaje automático
+1. Descargamos el dataset original desde Kaggle con `kagglehub`.
+2. Exploramos su estructura: columnas, tipos, valores ausentes y duplicados.
+3. Limpiamos y normalizamos las reseñas, conservando una versión original para consultar.
+4. Visualizamos la distribución de sentimientos, longitudes de las reseñas y palabras características.
+5. Preparamos un dataset para el modelo, con las columnas `reseña` y `sentimiento`.
+6. Exportamos **`mood_insights_limpio.csv`** para reutilizarlo en NLP.
 
-Archivo: `notebooks/MOOD_INSIGHTS_NLP.ipynb`.
+La limpieza se realiza principalmente en esta fase. Después de normalizar, podemos encontrar textos coincidentes que antes no eran duplicados; también comprobamos si un mismo texto está asociado a etiquetas opuestas.
 
-1. Volvimos a cargar el dataset y revisamos valores faltantes, duplicados y posibles etiquetas contradictorias.
-2. Creamos `X` (textos) e `y` (etiquetas conocidas).
-3. Usamos `train_test_split()` para separar **80 % de entrenamiento** y **20 % de prueba**.
-4. `CountVectorizer` convirtió los textos en números, contando palabras.
-5. `LogisticRegression` aprendió relaciones estadísticas entre esas palabras y las etiquetas.
-6. Un `Pipeline` unió vectorizador + clasificador. Así el vocabulario se aprende solo con el conjunto de entrenamiento.
-7. Comprobamos el rendimiento con predicciones, exactitud y otras métricas; también observamos errores.
-8. Guardamos el **Pipeline completo** con `joblib.dump()` en `mood_insights_modelo.joblib`.
+**Resultado del EDA:** un CSV limpio e independiente para entrenar el modelo, además de los gráficos y conclusiones exploratorias.
 
-**Importante:** los resultados numéricos del entrenamiento están en el notebook. No fijamos aquí una exactitud que pudiera variar al volver a entrenar. El modelo incluido fue entrenado previamente; la aplicación no lo vuelve a entrenar.
+### Día 2 — NLP y aprendizaje automático
 
-### Día 3 — La aplicación web
+**Notebook:** `notebook/MOOD_INSIGHTS_NLP.ipynb`.
 
-Archivo: `app.py`.
+1. Abrimos el proyecto en **VS Code**.
+2. Cargamos `mood_insights_limpio.csv`, generado previamente en el EDA; **no volvemos a descargar el dataset de Kaggle ni a repetir toda la limpieza**.
+3. Verificamos que el archivo contiene las columnas y etiquetas esperadas.
+4. Creamos `X` (reseñas) e `y` (sentimientos).
+5. Dividimos los datos en **80 % para entrenamiento y 20 % para prueba** con `train_test_split()`.
+6. `CountVectorizer` transforma los textos en características numéricas.
+7. `LogisticRegression` aprende a clasificar las reseñas.
+8. Un `Pipeline` une ambos pasos y asegura que el vocabulario se aprenda solo con los datos de entrenamiento.
+9. Evaluamos predicciones, exactitud, errores y otras métricas.
+10. Guardamos el Pipeline entrenado como archivo `.joblib` y conservamos las métricas generadas por NLP en la carpeta **`modelos/`**.
 
-- Streamlit crea el cuadro de texto, los botones y los resultados visibles.
-- `joblib.load()` abre el **modelo entrenado**.
-- `modelo.predict([texto])` devuelve una etiqueta (`positivo` / `negativo`).
-- `modelo.predict_proba([texto])` devuelve puntuaciones para ambas clases.
-- El historial permite comparar varias reseñas dentro de la sesión y descargarlo como CSV.
 
-## 3. Estructura de carpetas
+### Día 3 — Aplicación web con Streamlit
+
+**Archivo:** `app.py`.
+
+- Streamlit presenta el cuadro de texto, los botones y los resultados.
+- `joblib.load()` carga el Pipeline ya entrenado, sin volver a entrenarlo.
+- `modelo.predict([texto])` predice `positivo` o `negativo`.
+- `modelo.predict_proba([texto])` calcula puntuaciones asociadas a ambas categorías.
+- La aplicación permite conservar un historial de reseñas analizadas durante la sesión y exportarlo a CSV.
+
+## 3. Estructura del repositorio
+
+La organización acordada es la siguiente. **La carpeta `data/` es una incorporación propuesta:** todavía hay que crearla y copiar allí el CSV descargado del EDA. Los nombres de los archivos de métricas pueden variar según lo exportado desde el notebook.
 
 ```text
-MOOD_INSIGHTS_STREAMLIT/
+mood-insights/
 │
-├── app.py                         # Aplicación visual de Streamlit
-├── requirements.txt               # Librerías necesarias para la aplicación
-├── README.md                      # Esta guía
-├── .gitignore                     # Archivos que Git debe ignorar
+├── app.py                             # Aplicación de Streamlit
+├── README.md                          # Documentación del repositorio
+├── requirements.txt                   # Dependencias del proyecto
+├── .gitignore                         # Exclusiones de Git
+│
+├── data/                               # Carpeta para datasets
+│   └── mood_insights_limpio.csv       # CSV generado por el EDA 
+│
+├── notebook/
+│   ├── MOOD_INSIGHTS_EDA_ACTUALIZADO.ipynb
+│   └── MOOD_INSIGHTS_NLP_VSCODE.ipynb
 │
 ├── modelos/
-│   └── mood_insights_modelo.joblib # Pipeline entrenado (CountVectorizer + LogisticRegression)
+│   ├── mood_insights_modelo.joblib    # Pipeline entrenado
 │
-└── notebooks/
-    ├── MOOD_INSIGHTS_EDA.ipynb    # Día 1: exploración y gráficos
-    └── MOOD_INSIGHTS_NLP.ipynb    # Día 2: preparación, entrenamiento y evaluación
+└── version_V2/
+    ├── Butaca_Emocional.py                # Aplicación Streamlit V2
+    ├── BUTACA_EMOCIONAL_MODELO_V2.ipynb # Entrenamiento y evaluación V2
+    ├── butaca_emocional_modelo_v2.joblib # Modelo entrenado V2
+    ├── metricas_v2.json              # Resultados y términos para gráficos
+    └── README_BUTACA_EMOCIONAL_V2.md # Documentación detallada V2
 ```
 
-**Atención:** la carpeta `modelos` y su `.joblib` son imprescindibles. Sin ese archivo la aplicación no puede realizar predicciones. Para **ejecutar la app** no es necesario descargar otra vez el dataset de Kaggle: solo hace falta para **reproducir los notebooks y volver a entrenar**.
 
-## 4. Paso 1 — Descargar y descomprimir el proyecto
+## 4. Clonar el repositorio de GitHub y abrirlo en VS Code
 
-1. Descarga el ZIP del proyecto.
-2. Haz clic derecho y **Extraer todo**.
-3. Comprueba que dentro está la carpeta `MOOD_INSIGHTS_STREAMLIT` con `app.py`, `requirements.txt`, `modelos` y `notebooks`.
-4. No cambies de carpeta el archivo `mood_insights_modelo.joblib`: `app.py` busca el modelo dentro de `modelos/`.
 
-## 5. Paso 2 — Abrir la carpeta con Visual Studio Code
+1. Abre la página del repositorio en GitHub y pulsa **Code**.
+2. Selecciona **HTTPS** y copia la URL del repositorio.
+3. Abre **Visual Studio Code**, selecciona **Terminal → Nuevo terminal** y sitúate en el directorio donde quieras guardar el proyecto.
+4. Ejecuta el siguiente comando, sustituyendo la URL de ejemplo por la que has copiado:
 
-1. Abre **Visual Studio Code**.
-2. Selecciona **Archivo → Abrir carpeta**.
-3. Escoge la carpeta `MOOD_INSIGHTS_STREAMLIT`.
-4. Abre el terminal integrado: **Terminal → Nuevo terminal**.
-5. Comprueba que el terminal está situado en la carpeta del proyecto (donde está `app.py`).
+```bash
+git clone URL_DE_TU_REPOSITORIO
+```
 
-> Si al abrir el terminal ves una ruta distinta, entra en la carpeta del proyecto antes de ejecutar los comandos. No escribas los símbolos `PS C:\...>` de los ejemplos de PowerShell: son solo la línea de tu terminal.
+5. Entra en la carpeta clonada (su nombre normalmente coincide con el del repositorio):
 
-## 6. Paso 3 — Comprobar Python
+```bash
+cd NOMBRE_DE_LA_CARPETA_CLONADA
+```
 
-Recomendación: **Python 3.11 o 3.12** por compatibilidad con el modelo guardado en scikit-learn 1.6.1.
+6. Selecciona **Archivo → Abrir carpeta** en VS Code y abre esa carpeta. Desde ella podrás ejecutar los comandos de esta guía.
 
-En el terminal de VS Code, escribe:
+
+
+## 5. Comprobar Python y crear el entorno virtual
+
+Se recomienda utilizar una versión de Python compatible con las dependencias del proyecto. Si reutilizas un `.joblib` ya entrenado, conviene mantener la misma versión de `scikit-learn` con la que fue generado (en la documentación original se utilizó la **1.6.1**).
+
+Comprueba la versión instalada:
 
 ```powershell
 python --version
 ```
 
-**¿Qué hace?** Pregunta qué versión de Python está instalada. Si aparece un error, instala Python y reinicia VS Code. Si tu ordenador utiliza el lanzador de Windows, puedes consultar `py --version`.
-
-## 7. Paso 4 — Crear el entorno virtual
-
-Con el terminal situado dentro del proyecto:
+Crea el entorno virtual desde la raíz del proyecto:
 
 ```powershell
 python -m venv .venv
 ```
 
-**¿Qué significa cada parte?**
-
-- `python`: ejecutamos Python.
-- `-m venv`: pedimos que utilice el módulo que crea entornos virtuales.
-- `.venv`: nombre de la nueva carpeta con el entorno.
-
-**¿Por qué?** Porque instalaremos las librerías solo para este proyecto sin mezclarlas con otras instalaciones de Python.
-
-## 8. Paso 5 — Activar el entorno virtual
-
-### Windows — PowerShell
+Actívalo en **Windows PowerShell**:
 
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
 
-Cuando se active, el terminal suele mostrar `(.venv)` al principio de la línea.
-
-**Si PowerShell indica «la ejecución de scripts está deshabilitada»:**
-
-Opción sencilla (sin cambiar la política): abre un terminal **Símbolo del sistema (CMD)** en VS Code y escribe:
+Si PowerShell bloquea los scripts, puedes usar **CMD**:
 
 ```cmd
 .venv\Scripts\activate.bat
 ```
 
-Alternativa para PowerShell, solo si comprendes el cambio y tu política de seguridad lo permite, limita el permiso al proceso actual:
+O permitir temporalmente los scripts en esa sesión de PowerShell, si la política de tu equipo lo permite:
 
 ```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy RemoteSigned
 .\.venv\Scripts\Activate.ps1
 ```
 
-Este ajuste temporal afecta solamente a esa sesión de PowerShell; no es necesario hacerlo si utilizas CMD.
-
-### macOS o Linux
+En **macOS o Linux**:
 
 ```bash
 source .venv/bin/activate
 ```
 
-## 9. Paso 6 — Instalar las librerías
+## 6. Instalar las librerías
 
-Con `(.venv)` activo, ejecuta:
-
-instalamos las librerias
+Con el entorno virtual activado, instala las dependencias declaradas en el repositorio:
 
 ```powershell
-python -m pip install streamlit pandas scikit-learn joblib matplotlib
+python -m pip install -r requirements.txt
 ```
 
-**¿Qué hace?** Lee `requirements.txt` e instala las librerías indicadas. `python -m pip` ejecuta el instalador asociado al Python activo; suele ser más fiable que usar `pip` solo cuando hay varias instalaciones de Python.
+Este comando **sí lee** `requirements.txt` y permite reproducir las versiones incluidas en ese archivo. Para trabajar con los notebooks también puedes necesitar paquetes como `ipykernel`, `kagglehub`, `numpy`, `seaborn` y `matplotlib`, si no están ya especificados en los requisitos. Las celdas de instalación de cada notebook indican sus dependencias.
 
-| Librería | Para qué la utilizamos |
+| Librería | Para qué se utiliza |
 |---|---|
-| `streamlit` | Diseña la aplicación web con Python. |
-| `scikit-learn` | Contiene el vectorizador, el clasificador y el Pipeline entrenado. |
-| `joblib` | Abre el modelo guardado. |
-| `pandas` | Muestra y exporta el historial de resultados. |
+| `pandas` | Cargar y trabajar con los datos. |
+| `scikit-learn` | Vectorización, entrenamiento y evaluación. |
+| `joblib` | Guardar y cargar el modelo entrenado. |
+| `streamlit` | Crear la aplicación web. |
+| `matplotlib` / `seaborn` | Representar gráficos de exploración y evaluación. |
+| `kagglehub` | Descargar el dataset original en el EDA. |
 
-**Compatibilidad:** el archivo de modelo suministrado se guardó con **scikit-learn 1.6.1**. Por ello `requirements.txt` fija esa versión, para evitar cargarlo con una distinta. No sustituyas esta versión por otra sin comprobar que funciona o volver a generar el modelo.
+En VS Code, para ejecutar los `.ipynb`, selecciona el kernel asociado al entorno virtual.
 
-## 10. Paso 7 — Ejecutar la aplicación
+## 7. Ejecutar el EDA y generar el CSV limpio
 
-En el mismo terminal, dentro de la carpeta del proyecto:
+1. Abre el notebook del EDA dentro de `notebook/`.
+2. Ejecuta sus celdas en orden, incluyendo la descarga inicial desde Kaggle.
+3. Revisa la exploración, las visualizaciones y la preparación final para NLP.
+4. Ejecuta la exportación de **`mood_insights_limpio.csv`**.
+5. Guarda ese archivo en la carpeta **`data/`** del repositorio (créala antes si todavía no existe).
+
+**El CSV no se incluye automáticamente por el hecho de ejecutar el notebook:** debes copiarlo o moverlo a `data/` si se ha generado en otra carpeta. Esta ubicación hace que los datos queden separados de los notebooks y de los modelos.
+
+**Fuente original:** [IMDb Dataset of 50K Movie Reviews (Spanish) — Kaggle](https://www.kaggle.com/datasets/luisdiegofv97/imdb-dataset-of-50k-movie-reviews-spanish), publicado por `luisdiegofv97`.
+
+## 8. Ejecutar el NLP desde VS Code
+
+1. Comprueba que existe `data/mood_insights_limpio.csv`.
+2. Abre `notebook/MOOD_INSIGHTS_NLP.ipynb`.
+3. Selecciona el kernel de Python del proyecto.
+4. En la celda de lectura, establece la ruta correcta al CSV.
+5. Ejecuta las celdas en orden para entrenar y evaluar el Pipeline.
+6. Guarda el modelo y los archivos de métricas generados en **`modelos/`**.
+
+La ruta depende del **directorio de trabajo** del kernel de Jupyter. Puedes consultarlo con:
+
+```python
+from pathlib import Path
+print(Path.cwd())
+```
+
+Si el directorio de trabajo es la **raíz del repositorio**, la lectura es:
+
+```python
+import pandas as pd
+
+df = pd.read_csv("data/mood_insights_limpio.csv")
+```
+
+Si el directorio de trabajo es **`notebook/`**, utiliza:
+
+```python
+df = pd.read_csv("../data/mood_insights_limpio.csv")
+```
+
+
+
+### ¿Y si utilizamos Google Colab?
+
+Google Colab es una alternativa, pero no el entorno principal de este repositorio. En una sesión nueva normalmente debes **subir de nuevo `mood_insights_limpio.csv`** al entorno temporal (o montarlo desde Google Drive) antes de ejecutar el NLP. Después ajusta la ruta de `pd.read_csv()` a la ubicación del archivo. Si exportas el modelo desde Colab, descarga los resultados y colócalos en `modelo/` dentro de tu proyecto local.
+
+## 9. Ejecutar la aplicación Streamlit
+
+La aplicación utiliza el modelo entrenado; **no necesita ejecutar el EDA ni el NLP cada vez que se inicia**.
+
+Con el entorno activado y desde la raíz del repositorio:
 
 ```powershell
 python -m streamlit run app.py
 ```
 
-**¿Qué sucede?** Streamlit inicia un pequeño servidor local, muestra una dirección parecida a `http://localhost:8501` y suele abrir automáticamente el navegador. Si no se abre, copia en el navegador la URL local que aparezca en el terminal.
+Streamlit muestra una dirección local, normalmente `http://localhost:8501`. Abre esa dirección en el navegador si no se abre automáticamente.
 
-**No ejecutes `python app.py`** para abrir esta interfaz: las apps de Streamlit se lanzan con `streamlit run` o `python -m streamlit run`.
+**No uses `python app.py`** para iniciar Streamlit. Comprueba también que la ruta de carga del modelo en `app.py` coincide con `modelo/mood_insights_modelo.joblib`.
 
-## 11. Paso 8 — Probar la aplicación
+### Prueba rápida
 
-1. Escribe: **«Me encantó la película, es preciosa y emocionante»**.
-2. Pulsa **🔎 Analizar reseña**.
-3. Observa la categoría predicha y las dos puntuaciones.
-4. Cambia el texto por: **«Qué película tan aburrida, no la recomiendo»** y vuelve a analizar.
-5. Prueba una opinión mixta, por ejemplo: **«La fotografía es preciosa, pero la historia es muy aburrida»**.
-6. Consulta el **historial**, descarga el CSV si quieres guardarlo y utiliza el botón de borrado si deseas empezar de nuevo.
+1. Escribe «Me encantó la película, es preciosa y emocionante» y analiza la reseña.
+2. Prueba «Qué película tan aburrida, no la recomiendo».
+3. Introduce una opinión mixta: «La fotografía es preciosa, pero la historia es muy aburrida».
+4. Consulta las predicciones y el historial; exporta el CSV si deseas conservarlo.
 
-**Importante:** los ejemplos no garantizan una predicción concreta. El modelo decide basándose en las asociaciones aprendidas y puede fallar, especialmente con ironía, negaciones y mensajes mixtos.
+Estos ejemplos no garantizan una clasificación determinada. La ironía, las negaciones y los textos ambiguos son difíciles para un clasificador de este tipo.
 
-## 12. ¿Qué ocurre cuando pulsamos «Analizar reseña»?
+## 10. ¿Qué ocurre al analizar una reseña?
 
 ```text
-1. Escribimos una reseña
+Reseña escrita en Streamlit
           ↓
-2. Streamlit recoge el texto
+Carga del Pipeline guardado (.joblib)
           ↓
-3. Pipeline: CountVectorizer transforma palabras en números
+CountVectorizer: convierte palabras en características numéricas
           ↓
-4. Pipeline: LogisticRegression calcula una predicción
+LogisticRegression: predice el sentimiento
           ↓
-5. La aplicación muestra «positivo» o «negativo»
+Streamlit: muestra positivo/negativo y puntuaciones
           ↓
-6. Guarda ese resultado en el historial de la sesión
+Historial temporal de la sesión
 ```
 
-**Detalle de Python importante:** `modelo.predict([texto])` lleva el texto entre corchetes porque espera una **lista de textos**, aunque solo queramos analizar uno. Y `modelo.classes_` permite relacionar correctamente las puntuaciones con cada categoría, sin suponer cuál ocupa la primera columna.
+`modelo.predict([texto])` recibe una **lista de textos**, aunque solo analicemos uno. `modelo.classes_` permite asociar correctamente las puntuaciones a sus categorías.
 
-## 13. Conceptos básicos usados en `app.py`
+## 11. Funciones relevantes de Streamlit
 
-| Código | Explicación sencilla |
+| Código | Función |
 |---|---|
-| `import streamlit as st` | Importa Streamlit y le damos el nombre corto `st`. |
-| `Path(__file__).resolve().parent` | Localiza la carpeta en la que está `app.py`. |
-| `st.set_page_config(...)` | Configura el título y la disposición de la página. |
-| `@st.cache_resource` | Evita volver a cargar el modelo en cada interacción. |
-| `joblib.load(...)` | Recupera el Pipeline que guardamos el día 2. |
-| `st.title(...)` | Muestra el título principal. |
-| `st.text_area(...)` | Permite escribir una reseña larga. |
-| `st.form(...)` | Agrupa el cuadro de texto y el botón. |
-| `st.form_submit_button(...)` | Ejecuta el análisis al pulsar el botón. |
-| `modelo.predict(...)` | Estima la categoría de la reseña. |
-| `modelo.predict_proba(...)` | Devuelve puntuaciones para las dos categorías. |
-| `st.progress(...)` | Dibuja una barra de progreso para cada puntuación. |
-| `st.session_state` | Guarda temporalmente resultados e historial durante la sesión. |
-| `st.dataframe(...)` | Enseña el historial como una tabla. |
-| `st.download_button(...)` | Descarga el historial en formato CSV. |
+| `st.set_page_config(...)` | Configura la página. |
+| `st.title(...)` | Muestra el título. |
+| `st.text_area(...)` | Permite introducir una reseña. |
+| `st.form(...)` | Agrupa el formulario. |
+| `st.form_submit_button(...)` | Envía la reseña para analizarla. |
+| `@st.cache_resource` | Evita recargar el modelo innecesariamente. |
+| `joblib.load(...)` | Recupera el Pipeline entrenado. |
+| `modelo.predict(...)` | Obtiene la categoría estimada. |
+| `modelo.predict_proba(...)` | Calcula puntuaciones por categoría. |
+| `st.session_state` | Conserva el historial durante la sesión. |
+| `st.dataframe(...)` | Presenta los resultados en tabla. |
+| `st.download_button(...)` | Permite descargar el historial. |
 
-## 14. Detener la aplicación y salir del entorno
+## 12. Detener la aplicación
 
-Para **detener Streamlit**, ve al terminal donde se ejecuta y pulsa:
-
-```text
-Ctrl + C
-```
-
-Para **desactivar el entorno virtual**, escribe:
+En el terminal donde se ejecuta Streamlit, pulsa **Ctrl + C**. Para salir del entorno virtual:
 
 ```powershell
 deactivate
 ```
 
-La próxima vez que abras el proyecto no tienes que instalar todo de nuevo: solo abrir la carpeta, activar `.venv` y ejecutar `python -m streamlit run app.py`.
+La próxima vez basta con abrir el proyecto, activar `.venv` y ejecutar `python -m streamlit run app.py`.
 
-## 15. Si algo falla: errores frecuentes
+## 13. Problemas frecuentes
 
-| Problema | Posible causa y solución |
+| Problema | Comprobación o solución |
 |---|---|
-| `No module named streamlit` | No se instalaron los requisitos en el Python activo. Activa `.venv` y repite `python -m pip install -r requirements.txt`. |
-| `FileNotFoundError` relacionado con el modelo | Comprueba que existe `modelos/mood_insights_modelo.joblib`. |
-| PowerShell bloquea `Activate.ps1` | Usa CMD con `activate.bat` o la alternativa temporal de PowerShell indicada arriba. |
-| `streamlit` no se reconoce | Usa `python -m streamlit run app.py` en lugar de `streamlit run app.py`. |
-| Incompatibilidad de versión de scikit-learn | Usa el entorno indicado y `scikit-learn==1.6.1` tal como aparece en los requisitos. |
-| `Port 8501 is already in use` | Cierra la otra aplicación Streamlit o ejecuta `python -m streamlit run app.py --server.port 8502`. |
-| La predicción parece equivocada | Es una clasificación estadística, no una respuesta garantizada. Comprueba varios ejemplos y recuerda que hay limitaciones de vocabulario y contexto. |
+| `No module named streamlit` | Activa `.venv` e instala `python -m pip install -r requirements.txt`. |
+| No se encuentra el CSV en NLP | Comprueba que está en `data/` y que `pd.read_csv()` utiliza la ruta relativa correcta. |
+| No se encuentra el modelo en Streamlit | Comprueba que existe `modelo/mood_insights_modelo.joblib` y que `app.py` busca esa ruta. |
+| PowerShell bloquea `Activate.ps1` | Usa CMD con `activate.bat` o el cambio temporal de política indicado antes. |
+| `streamlit` no se reconoce | Ejecuta `python -m streamlit run app.py`. |
+| Error por versión de `scikit-learn` | Revisa la versión con la que se generó el `.joblib` y reinstala las dependencias compatibles. |
+| `Port 8501 is already in use` | Cierra la otra instancia o usa `python -m streamlit run app.py --server.port 8502`. |
+| La predicción parece incorrecta | El modelo es estadístico y puede equivocarse. |
 
-## 16. ¿Y si quiero repetir el entrenamiento desde cero?
+**Seguridad:** carga únicamente archivos `.joblib` de procedencia fiable. Deserializar modelos desconocidos puede ejecutar código no seguro.
 
-La aplicación **no necesita** que entrenes otra vez. Si quieres reproducir los días 1 y 2, abre los notebooks de `notebooks/` en Colab o Jupyter, ejecuta sus celdas en orden y descarga el dataset que utilizan:
+## 14. Actualizar un repositorio de GitHub existente
 
-**Kaggle:** [IMDb Dataset of 50K Movie Reviews (Spanish)](https://www.kaggle.com/datasets/luisdiegofv97/imdb-dataset-of-50k-movie-reviews-spanish).
+Si ya tienes creado el repositorio y configurado el remoto, desde la raíz del proyecto:
 
-El notebook de NLP utiliza `kagglehub.dataset_download("luisdiegofv97/imdb-dataset-of-50k-movie-reviews-spanish")`. Sus dependencias de análisis son adicionales a las de esta app: por ejemplo, `kagglehub` y `matplotlib`. Para reproducir también los gráficos del EDA puede hacer falta `seaborn` y `numpy`. En los notebooks se indican las instalaciones correspondientes.
+```bash
+git status
+git add .
+git commit -m "Actualizar documentación y flujo EDA-NLP"
+git push
+```
 
-Cuando generes un modelo nuevo desde el notebook de NLP, **coloca el archivo resultante dentro de `modelos/` con el nombre `mood_insights_modelo.joblib`**. Reinicia la app de Streamlit para que cargue la versión nueva.
+Revisa `.gitignore` para que excluya `.venv/`, archivos temporales y secretos. Decide expresamente si vas a publicar el CSV derivado, atendiendo a las condiciones de la fuente, y asegúrate de que el modelo y las métricas que deseas compartir figuran en el repositorio.
 
-## 17. Subir el proyecto a GitHub
+## 15. Evolución del NLP: V1 y V2
 
-1. Crea un repositorio nuevo en GitHub.
-2. Abre el terminal de VS Code desde la carpeta del proyecto.
-3. Ejecuta `git init`, `git add .` y `git commit -m "Proyecto completo"`.
-4. En GitHub, copia los comandos para enlazar tu repositorio y enviar la rama. Si la rama principal se llama `main`, normalmente serán `git branch -M main`, `git remote add origin URL_DEL_REPOSITORIO` y `git push -u origin main`.
+**V1** permite aprender los fundamentos: transformar palabras en números, entrenar un clasificador y evaluar los resultados.
 
-No subas `.venv`: ya está excluida por `.gitignore`. El modelo `.joblib` **sí forma parte del proyecto**, pues es necesario para predecir, pero nunca cargues modelos desconocidos por razones de seguridad.
+**V2** amplía la representación del texto mediante unigramas y bigramas, filtrado del vocabulario y análisis de coeficientes asociados a cada sentimiento.
 
-## 18. Conclusión del proyecto
+Ambas versiones emplean técnicas clásicas de **Bag of Words** y **regresión logística**; no son modelos profundos de comprensión del lenguaje. Una representación más amplia no garantiza por sí sola mejores resultados: es necesario comparar ambas versiones con el mismo conjunto de prueba.
 
-Con Butaca Emocional hemos conectado todo el proceso: primero **estudiamos los datos**, después **enseñamos al clasificador con ejemplos**, finalmente **lo integramos en una aplicación real** que cualquier persona puede probar.
+## 16. Conclusiones y limitaciones
 
-**Limitaciones:** clasificación binaria, dominio de reseñas de cine, posibles errores ante ironías o textos ambiguos, y puntuaciones que no deben interpretarse como certezas ni como medida del estado emocional humano. Una mejora futura sería evaluar textos de otros ámbitos con datos apropiados y, si se necesita la categoría neutra, reunir ejemplos etiquetados de esa clase y volver a entrenar/evaluar.
+Con Butaca Emocional hemos conectado un flujo completo de trabajo: explorar y limpiar los datos, exportar un dataset reutilizable, entrenar un clasificador y utilizarlo desde una aplicación.
 
-## 19. 🧠 Evolución del NLP: Butaca Emocional V1 vs. Butaca Emocional V2
-Butaca Emocional V1 se centra en aprender los fundamentos del procesamiento del lenguaje natural: transformar palabras en números, entrenar un clasificador y comprobar sus resultados.
-
-Butaca Emocional V2 amplía ese aprendizaje mediante el uso de unigramas y bigramas, el filtrado del vocabulario y el análisis de los coeficientes asociados a cada sentimiento.
-
-La principal evolución entre ambos modelos se encuentra en cómo representan el texto y cómo podemos interpretar las características que influyen en sus predicciones.
-
-Ambas versiones siguen utilizando un enfoque clásico de NLP basado en Bag of Words y regresión logística. No utilizan modelos de lenguaje profundo ni análisis semántico avanzado.
-
-La V2 ofrece una representación lingüística más amplia, aunque eso no demuestra por sí solo que tenga mayor exactitud: para confirmar una mejora de rendimiento es necesario comparar ambos modelos sobre el mismo conjunto de prueba.
+La clasificación es **binaria** y está entrenada para reseñas de películas. Puede fallar ante ironías, dobles negaciones, textos mixtos y vocabulario poco frecuente. Las puntuaciones del clasificador no equivalen a certezas ni describen el estado emocional real de una persona. Para incorporar la clase **neutra**, sería necesario disponer de ejemplos etiquetados y volver a entrenar y evaluar el modelo.
 
 ---
 
-**Proyecto educativo · Dataset de reseñas IMDb en español, publicado en Kaggle por `luisdiegofv97`.**
+**Proyecto educativo · Fuente de datos: IMDb Dataset of 50K Movie Reviews (Spanish), publicado en Kaggle por `luisdiegofv97`.**
+
+
+## 17. 💺 Versión 2 — Butaca Emocional (`version_V2/`)
+
+
+### Archivos de la versión 2
+
+| Archivo | Función |
+|---|---|
+| `version_V2/Butaca_Emocional.py` | Aplicación Streamlit V2: análisis de reseñas y visualizaciones con Plotly. |
+| `version_V2/BUTACA_EMOCIONAL_MODELO_V2.ipynb` | Notebook del entrenamiento y la evaluación del modelo V2. |
+| `version_V2/butaca_emocional_modelo_v2.joblib` | Pipeline entrenado para realizar predicciones. |
+| `version_V2/metricas_v2.json` | Exactitud, matriz de confusión, precisión, recall y términos asociados a cada sentimiento. |
+| `version_V2/README_BUTACA_EMOCIONAL_V2.md` | Guía detallada de funcionamiento y ejecución de la versión 2. |
+
+**Importante:** `Butaca_Emocional.py` busca el `.joblib` y `metricas_v2.json` **en su misma carpeta**. No los muevas a `modelos/`, que corresponde a la versión principal.
+
+### ¿Qué cambia respecto a la primera versión?
+
+En V2 seguimos usando **CountVectorizer** y **regresión logística**, pero incluimos **unigramas y bigramas** (palabras individuales y parejas de palabras), con un vocabulario máximo de **40.000 términos**. La aplicación incorpora gráficos interactivos con **Plotly** y tres pestañas:
+
+1. **Analiza una película:** introduce una reseña y consulta la clasificación positiva o negativa y sus probabilidades estimadas.
+2. **Qué ha aprendido:** muestra palabras y expresiones con mayor peso estadístico en cada sentimiento.
+3. **Resultados del modelo:** presenta exactitud, aciertos, errores, matriz de confusión y precisión/recall por clase.
+
+El notebook V2 proporcionado **descarga el dataset original de Kaggle para su propio entrenamiento**. No debe confundirse con el flujo actualizado del NLP principal, que utiliza `data/mood_insights_limpio.csv` exportado desde el EDA.
+
+### Resultados de la evaluación V2
+
+Los valores siguientes proceden de `version_V2/metricas_v2.json` y describen el conjunto de prueba usado en esa versión:
+
+| Indicador | Resultado |
+|---|---:|
+| Reseñas de entrenamiento | 39.679 |
+| Reseñas de prueba | 9.920 |
+| Tamaño del vocabulario | 40.000 términos |
+| Exactitud | **87,64 %** |
+| Aciertos | 8.694 |
+| Errores | 1.226 |
+
+Este resultado no demuestra por sí solo que V2 sea mejor que V1: para una comparación rigurosa hay que evaluarlas sobre el mismo conjunto de prueba.
+
+### Ejecutar la versión 2 después de clonar el repositorio
+
+Desde la **carpeta raíz del repositorio**, con el entorno virtual del proyecto activado (el mismo que utiliza V1):
+
+```powershell
+# Instala las dependencias generales, si todavía no lo has hecho.
+python -m pip install -r requirements.txt
+
+# Plotly se utiliza para los gráficos interactivos de V2.
+python -m pip install plotly
+
+# Inicia la aplicación V2 desde la raíz del repositorio.
+python -m streamlit run version_V2/Butaca_Emocional.py
+```
+
+No necesitas crear otro entorno virtual ni volver a entrenar el modelo si los archivos `.joblib` y `.json` de V2 están disponibles. El modelo fue evaluado con `scikit-learn` **1.6.1**, según su JSON de métricas; utilizar otra versión puede causar incompatibilidades.
+
+Para conocer el procedimiento de entrenamiento y las explicaciones sobre los gráficos, consulta [la documentación específica de V2](version_V2/README_BUTACA_EMOCIONAL_V2.md).
