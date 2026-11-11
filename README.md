@@ -28,7 +28,7 @@ El clasificador no aplica reglas escritas a mano, como «si aparece *bueno*, el 
 3. Limpiamos y normalizamos las reseñas, conservando una versión original para consultar.
 4. Visualizamos la distribución de sentimientos, longitudes de las reseñas y palabras características.
 5. Preparamos un dataset para el modelo, con las columnas `reseña` y `sentimiento`.
-6. Exportamos **`mood_insights_limpio.csv`** para reutilizarlo en NLP.
+6. Exportamos el dataset limpio como `mood_insights_limpio.csv.gz`, utilizando compresión GZIP para reducir su tamaño de aproximadamente 67 MB a 25 MB. Descargamos el archivo generado desde Google Colab y lo guardamos en la carpeta `data/` del repositorio.
 
 La limpieza se realiza principalmente en esta fase. Después de normalizar, podemos encontrar textos coincidentes que antes no eran duplicados; también comprobamos si un mismo texto está asociado a etiquetas opuestas.
 
@@ -39,7 +39,7 @@ La limpieza se realiza principalmente en esta fase. Después de normalizar, pode
 **Notebook:** `notebook/MOOD_INSIGHTS_NLP.ipynb`.
 
 1. Abrimos el proyecto en **VS Code**.
-2. Cargamos `mood_insights_limpio.csv`, generado previamente en el EDA; **no volvemos a descargar el dataset de Kaggle ni a repetir toda la limpieza**.
+2. Cargamos `data/mood_insights_limpio.csv.gz`, generado previamente en el EDA. Pandas permite leer el archivo comprimido directamente, sin descomprimirlo manualmente ni repetir la limpieza de los datos.
 3. Verificamos que el archivo contiene las columnas y etiquetas esperadas.
 4. Creamos `X` (reseñas) e `y` (sentimientos).
 5. Dividimos los datos en **80 % para entrenamiento y 20 % para prueba** con `train_test_split()`.
@@ -73,7 +73,7 @@ mood-insights/
 ├── .gitignore                         # Exclusiones de Git
 │
 ├── data/                               # Carpeta para datasets
-│   └── mood_insights_limpio.csv       # CSV generado por el EDA 
+│   └── mood_insights_limpio.csv.gz    # Dataset limpio y comprimido 
 │
 ├── notebook/
 │   ├── MOOD_INSIGHTS_EDA_ACTUALIZADO.ipynb
@@ -175,48 +175,161 @@ Este comando **sí lee** `requirements.txt` y permite reproducir las versiones i
 
 En VS Code, para ejecutar los `.ipynb`, selecciona el kernel asociado al entorno virtual.
 
+
 ## 7. Ejecutar el EDA y generar el CSV limpio
 
-1. Abre el notebook del EDA dentro de `notebook/`.
-2. Ejecuta sus celdas en orden, incluyendo la descarga inicial desde Kaggle.
-3. Revisa la exploración, las visualizaciones y la preparación final para NLP.
-4. Ejecuta la exportación de **`mood_insights_limpio.csv`**.
-5. Guarda ese archivo en la carpeta **`data/`** del repositorio (créala antes si todavía no existe).
+**Notebook:** `notebook/MOOD_INSIGHTS_EDA.ipynb`
 
-**El CSV no se incluye automáticamente por el hecho de ejecutar el notebook:** debes copiarlo o moverlo a `data/` si se ha generado en otra carpeta. Esta ubicación hace que los datos queden separados de los notebooks y de los modelos.
+En esta fase realizamos el análisis exploratorio y preparamos los datos que utilizaremos posteriormente para entrenar el modelo.
 
-**Fuente original:** [IMDb Dataset of 50K Movie Reviews (Spanish) — Kaggle](https://www.kaggle.com/datasets/luisdiegofv97/imdb-dataset-of-50k-movie-reviews-spanish), publicado por `luisdiegofv97`.
+### Pasos del proceso
+
+1. Abrimos el notebook EDA desde VS Code o Google Colab.
+2. Ejecutamos las celdas en orden, comenzando por la descarga del dataset original desde Kaggle.
+3. Exploramos las columnas, los tipos de datos, los valores nulos y los duplicados.
+4. Analizamos la distribución de sentimientos y visualizamos los resultados.
+5. Limpiamos y normalizamos las reseñas.
+6. Preparamos el DataFrame `df_nlp` con las columnas `reseña` y `sentimiento`.
+7. Exportamos el dataset limpio y comprimido.
+
+### Exportación y compresión del dataset
+
+El CSV limpio original ocupaba aproximadamente **67 MB**. Para facilitar su almacenamiento en GitHub utilizamos compresión GZIP, reduciendo su tamaño a aproximadamente **25 MB**.
+
+```python
+# Nombre del archivo de salida
+nombre_csv_limpio = "mood_insights_limpio.csv.gz"
+
+# Guardamos el dataset limpio y comprimido
+df_nlp.to_csv(
+    nombre_csv_limpio,
+    index=False,
+    encoding="utf-8-sig",
+    compression="gzip"
+)
+```
+
+### Explicación de los métodos y parámetros
+
+| Método o parámetro | ¿Qué hace? |
+|---|---|
+| `to_csv()` | Exporta el DataFrame a un archivo CSV. |
+| `index=False` | Evita guardar el índice como una columna adicional. |
+| `encoding="utf-8-sig"` | Establece la codificación del texto. |
+| `compression="gzip"` | Comprime el archivo sin eliminar información. |
+| `.csv.gz` | Identifica un archivo CSV comprimido mediante GZIP. |
+
+### Descargar el archivo desde Google Colab
+
+Una vez generado el archivo comprimido, lo descargamos:
+
+```python
+from google.colab import files
+
+files.download("mood_insights_limpio.csv.gz")
+```
+
+Después guardamos el archivo descargado dentro de la carpeta `data/` de nuestro repositorio.
+
+**Fuente original:** [IMDb Dataset of 50K Movie Reviews (Spanish) — Kaggle](https://www.kaggle.com/datasets/luisdiegofv97/imdb-dataset-of-50k-movie-reviews-spanish).
+
+**Resultado del EDA:** un dataset limpio y comprimido que podemos reutilizar directamente en NLP, evitando repetir todo el proceso de limpieza.
+
 
 ## 8. Ejecutar el NLP desde VS Code
 
-1. Comprueba que existe `data/mood_insights_limpio.csv`.
-2. Abre `notebook/MOOD_INSIGHTS_NLP.ipynb`.
-3. Selecciona el kernel de Python del proyecto.
-4. En la celda de lectura, establece la ruta correcta al CSV.
-5. Ejecuta las celdas en orden para entrenar y evaluar el Pipeline.
-6. Guarda el modelo y los archivos de métricas generados en **`modelos/`**.
+**Notebook:** `notebook/MOOD_INSIGHTS_NLP.ipynb`
 
-La ruta depende del **directorio de trabajo** del kernel de Jupyter. Puedes consultarlo con:
+En esta fase utilizamos el dataset limpio generado en el EDA para entrenar nuestro modelo de análisis de sentimientos.
 
-```python
-from pathlib import Path
-print(Path.cwd())
-```
+**No necesitamos descargar otra vez el dataset original ni repetir la limpieza**, porque los datos ya están preparados.
 
-Si el directorio de trabajo es la **raíz del repositorio**, la lectura es:
+### Pasos del proceso
+
+1. Comprobamos que el archivo `mood_insights_limpio.csv.gz` está dentro de `data/`.
+2. Abrimos el notebook NLP en VS Code.
+3. Seleccionamos el kernel de Python asociado al entorno virtual del proyecto.
+4. Cargamos el dataset comprimido utilizando Pandas.
+5. Verificamos las columnas y etiquetas.
+6. Creamos las variables `X` (reseñas) e `y` (sentimientos).
+7. Dividimos los datos en entrenamiento (80 %) y prueba (20 %).
+8. Transformamos los textos en características numéricas con `CountVectorizer`.
+9. Entrenamos el modelo `LogisticRegression` mediante un `Pipeline`.
+10. Evaluamos las predicciones, la exactitud y las demás métricas.
+11. Guardamos el modelo entrenado y sus resultados en la carpeta `modelos/`.
+
+### Cargar el dataset comprimido
+
+El archivo se encuentra en:
+
+`data/mood_insights_limpio.csv.gz`
+
+Pandas permite leerlo directamente sin tener que descomprimirlo manualmente.
+
+**Si ejecutamos el notebook desde la raíz del repositorio:**
 
 ```python
 import pandas as pd
 
-df = pd.read_csv("data/mood_insights_limpio.csv")
+# Cargamos el dataset comprimido
+df = pd.read_csv(
+    "data/mood_insights_limpio.csv.gz",
+    compression="gzip"
+)
+
+# Comprobamos los datos
+print(df.shape)
+display(df.head())
 ```
 
-Si el directorio de trabajo es **`notebook/`**, utiliza:
+**Si el directorio de trabajo es `notebook/`:**
 
 ```python
-df = pd.read_csv("../data/mood_insights_limpio.csv")
+import pandas as pd
+
+df = pd.read_csv(
+    "../data/mood_insights_limpio.csv.gz",
+    compression="gzip"
+)
 ```
 
+Para conocer nuestro directorio de trabajo podemos ejecutar:
+
+```python
+from pathlib import Path
+
+print(Path.cwd())
+```
+
+### Explicación de los métodos
+
+| Método o parámetro | ¿Qué hace? |
+|---|---|
+| `pd.read_csv()` | Lee un archivo CSV y lo convierte en un DataFrame. |
+| `compression="gzip"` | Descomprime los datos durante la lectura. |
+| `df.shape` | Muestra el número de filas y columnas. |
+| `df.head()` | Muestra las primeras cinco filas. |
+| `Path.cwd()` | Indica el directorio desde el que se está ejecutando Python. |
+
+### ¿Y si utilizamos Google Colab?
+
+Google Colab utiliza un entorno independiente de nuestro ordenador.
+
+Para ejecutar el NLP en Colab debemos subir el archivo `mood_insights_limpio.csv.gz` o acceder a él mediante Google Drive u otra ubicación disponible.
+
+Después adaptamos la ruta de lectura a la ubicación del archivo.
+
+### Entrenamiento del modelo
+
+Una vez cargados los datos, continuamos con el procesamiento del lenguaje natural.
+
+Utilizamos `CountVectorizer` para transformar las reseñas en vectores numéricos y `LogisticRegression` para aprender a clasificarlas como positivas o negativas.
+
+Ambos procesos están conectados mediante un `Pipeline` de Scikit-learn.
+
+Finalmente, evaluamos el modelo y guardamos el resultado entrenado mediante `joblib`.
+
+**Resultado del NLP:** un modelo de Machine Learning entrenado y evaluado que puede utilizarse desde nuestra aplicación Streamlit.
 
 
 ### ¿Y si utilizamos Google Colab?
